@@ -1,0 +1,17 @@
+cff-version: 1.2.0
+message: "If you use asc-py, please cite this software."
+title: "asc-py: portable foundational Python infrastructure for AI4SciComp"
+type: software
+authors:
+  - name: "AI4SciComp contributors"
+repository-code: "https://github.com/AI4SciComp/asc-py"
+url: "https://github.com/AI4SciComp/asc-py"
+license: Apache-2.0
+version: 0.1.0
+preferred-citation:
+  type: software
+  title: "asc-py: portable foundational Python infrastructure for AI4SciComp"
+  authors:
+    - name: "AI4SciComp contributors"
+  version: 0.1.0
+  repository-code: "https://github.com/AI4SciComp/asc-py"

@@ -70,6 +70,10 @@ instance/
 
 # Sphinx documentation
 docs/_build/
+docs/api/generated/
+
+# Legacy rendered documentation output
+/site
 
 # PyBuilder
 .pybuilder/
@@ -163,9 +167,6 @@ venv.bak/
 
 # Rope project settings
 .ropeproject
-
-# mkdocs documentation
-/site
 
 # mypy
 .mypy_cache/
