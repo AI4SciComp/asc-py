@@ -13,8 +13,10 @@ Include the complete backend-neutral data package. Exclude PDE/domain solvers,
 physics-specific generation, models, neural operators, training, optimizers,
 and AutoML.
 
-No commit, push, PR, tag, publication, release, remote/repository setting
-change, or DeepMLT modification is authorized.
+Commit and push operations require explicit user authorization. The current
+CI-remediation commit and push to the existing pull-request branch were
+authorized on 2026-08-16. No tag, release, package publication,
+remote/repository setting change, or DeepMLT modification is authorized.
 
 ## Frozen decisions
 
@@ -293,6 +295,13 @@ each internal gate.
 | 2026-08-13 | scoped persistence review and affected validation | A commit-scoped `/review` found and drove fixes for NumPy scalar ownership and combined backend markers. All 104 affected conversion and persistence tests passed; the five new format cases passed independently in both Torch-only and JAX-only profiles; formatting and Ruff passed; Pylint completed at 9.94/10; all audits passed; strict Pyright reported 0 errors. |
 | 2026-08-13 | `make test` after persistence review | All 1,213 tests passed without skips and with 90.69% branch coverage. |
 | 2026-08-13 | final scoped persistence review | The follow-up commit-scoped `/review` returned no remaining findings after tracing NumPy scalar classification through persistence, probing supported and unsupported scalar dtypes, and confirming independent Torch/JAX profile collection. |
+| 2026-08-16 | GitHub Actions failure diagnosis | The dependency-floor job had 16 failures from NumPy 1.26 DLPack controls, unsafe opaque Torch DLPack layouts, NumPy/JAX `bool_` dtype spelling, JAX 0.6 x64 context location, and JAX 0.6 PyTree sentinels. The clean documentation job had 12 unresolved `typing.P` references. |
+| 2026-08-16 | affected current and exact floor regressions | All 627 affected current-environment tests passed; all 18 originally failing cases passed under NumPy 1.26.4, JAX/JAXlib 0.6.0, and Torch 2.13.0. |
+| 2026-08-16 | `make lint` and `make typecheck` after CI remediation | Formatting and Ruff passed; Pylint completed at 9.94/10; portability, documentation-link, and release audits passed; strict Pyright reported 0 errors. |
+| 2026-08-16 | `make docs-base` after CI remediation | Isolated NumPy-only warnings-as-errors HTML, all 35 doctests, and 14 selected documentation tests passed. |
+| 2026-08-16 | `make floor` after CI remediation | All 1,213 tests passed against every direct minimum with 90.57% branch coverage. |
+| 2026-08-16 | `make docs` after CI remediation | All-extras warnings-as-errors HTML and all 35 doctests passed. |
+| 2026-08-16 | `make test` after CI remediation | All 1,213 tests passed without skips and with 90.51% branch coverage. |
 
 The functionality ledger contains all 168 normative IDs in runbook order. The
 release audit verifies every row is Complete with existing trace paths.

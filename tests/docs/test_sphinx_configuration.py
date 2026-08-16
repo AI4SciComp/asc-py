@@ -87,13 +87,14 @@ def test_private_qualified_annotations_are_resolved_as_signature_text() -> None:
         typing.Callable[..., nodes.Element | None],
         namespace["_resolve_public_alias"],
     )
-    reference = addnodes.pending_xref()
-    reference["refdomain"] = "py"
-    reference["reftarget"] = "asc.data.sampler.Sampler"
-    reference["refdoc"] = "api/generated/asc.data.DataLoader"
-    content = nodes.inline("", "Sampler")
+    for target in ("asc.data.sampler.Sampler", "P", "typing.P"):
+        reference = addnodes.pending_xref()
+        reference["refdomain"] = "py"
+        reference["reftarget"] = target
+        reference["refdoc"] = "api/generated/asc.data.DataLoader"
+        content = nodes.inline("", target)
 
-    assert resolver(None, None, reference, content) is content
+        assert resolver(None, None, reference, content) is content
 
 
 def test_required_narratives_and_local_commands_exist() -> None:

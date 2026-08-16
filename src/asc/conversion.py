@@ -294,6 +294,7 @@ def _from_dlpack(
     *,
     device: object | None = None,
     copy: bool | None = None,
+    allow_legacy_no_copy: bool = False,
 ) -> asc_typing.NativeArray:
     """Import DLPack, accommodating exporters without version support.
 
@@ -307,7 +308,7 @@ def _from_dlpack(
         with _namespace.trusted_dlpack_conversion():
             return target.from_dlpack(source, device=device, copy=copy)
     except TypeError as exception:
-        if copy is False:
+        if copy is False and not allow_legacy_no_copy:
             raise errors.ConversionError(
                 "from_dlpack: destination cannot guarantee no-copy import"
             ) from exception
@@ -393,6 +394,35 @@ def _prepare_dlpack_capsule_export(
             ),
         )
     return value
+
+
+def copy_opaque_cpu_dlpack_producer(producer: object) -> numpy.ndarray:
+    """Copy an opaque CPU producer through NumPy before unsafe consumption."""
+    try:
+        with warnings.catch_warnings():
+            warnings.simplefilter("error")
+            if isinstance(producer, (numpy.ndarray, numpy.generic)):
+                imported = numpy.asarray(producer)
+            else:
+                try:
+                    imported = numpy.from_dlpack(producer)
+                except NotImplementedError:
+                    exporter = typing.cast(_VersionedDLPackExporter, producer)
+                    capsule = exporter.__dlpack__(max_version=None)
+                    imported = numpy.from_dlpack(
+                        _DLPackCapsule(
+                            capsule,
+                            (1, 0),
+                            getattr(producer, "dtype", None),
+                            _data_pointer(producer),
+                        )
+                    )
+            return numpy.array(imported, copy=True, order="C")
+    except _CONVERSION_FAILURES as exception:
+        raise errors.ConversionError(
+            "from_dlpack: opaque CPU producer could not be copied safely "
+            "before destination import"
+        ) from exception
 
 
 def _destination_supports_source_dtype(
@@ -492,6 +522,14 @@ def _accepts_copy_keyword(function: object) -> bool:
         parameter.kind is inspect.Parameter.VAR_KEYWORD
         for parameter in parameters.values()
     )
+
+
+def _is_builtin_numpy_dlpack_importer(function: object) -> bool:
+    """Return whether a wrapper delegates to NumPy's trusted importer."""
+    try:
+        return inspect.unwrap(function) is numpy.from_dlpack
+    except Exception:  # pylint: disable=broad-exception-caught
+        return False
 
 
 def _require_cpu_dlpack_device(producer: object) -> None:
@@ -994,12 +1032,6 @@ def from_dlpack(  # pylint: disable=too-many-statements
             "protocol producer or the result of asc.to_dlpack"
         )
     _require_cpu_dlpack_device(capsule)
-    if policy is config.CopyPolicy.NEVER and not _accepts_copy_keyword(
-        target.from_dlpack
-    ):
-        raise errors.ConversionError(
-            "from_dlpack: destination cannot guarantee no-copy import"
-        )
     producer = capsule
     preparation_copied = False
     try:
@@ -1091,6 +1123,17 @@ def from_dlpack(  # pylint: disable=too-many-statements
             raise errors.ConversionError(
                 "from_dlpack: requested dtype change requires a copy"
             )
+    if (
+        policy is config.CopyPolicy.NEVER
+        and not _accepts_copy_keyword(target.from_dlpack)
+        and not (
+            context.backend == "numpy"
+            and _is_builtin_numpy_dlpack_importer(target.from_dlpack)
+        )
+    ):
+        raise errors.ConversionError(
+            "from_dlpack: destination cannot guarantee no-copy import"
+        )
     expected_dtype = context.dtype if context.dtype is not None else known_dtype
     copy_value = {
         config.CopyPolicy.ALWAYS: True,
@@ -1112,6 +1155,10 @@ def from_dlpack(  # pylint: disable=too-many-statements
             "from_dlpack: opaque producer layout cannot safely guarantee a "
             "no-copy Torch import"
         )
+    if opaque_torch_producer:
+        producer = copy_opaque_cpu_dlpack_producer(producer)
+        preparation_copied = True
+        opaque_torch_producer = False
     import_copy = copy_value
     if copy_value is True and not opaque_torch_producer:
         import_copy = None
@@ -1125,6 +1172,10 @@ def from_dlpack(  # pylint: disable=too-many-statements
                 typing.cast(asc_typing.NativeArray, producer),
                 device=context.device,
                 copy=import_copy,
+                allow_legacy_no_copy=(
+                    context.backend == "numpy"
+                    and _is_builtin_numpy_dlpack_importer(target.from_dlpack)
+                ),
             )
     except _CONVERSION_FAILURES as exception:
         raise errors.ConversionError(

@@ -126,12 +126,14 @@ def dtype_name(dtype: object) -> str | None:
         except Exception:  # pylint: disable=broad-exception-caught
             return None
         if isinstance(name, str) and name:
-            return name
+            return "bool" if name == "bool_" else name
     try:
         text = str(dtype)
     except Exception:  # pylint: disable=broad-exception-caught
         return None
     candidate = text.rsplit(".", maxsplit=1)[-1]
+    if candidate == "bool_":
+        candidate = "bool"
     return (
         candidate
         if candidate

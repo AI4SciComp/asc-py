@@ -21,6 +21,7 @@ import pytest
 import asc
 from asc import random, tree
 from asc.extensions import random as compatibility_random
+from tests import helpers
 
 
 class _SpoofedNumpyDType:
@@ -3365,9 +3366,7 @@ def test_named_linalg_extensions_do_not_expand_backend_namespace(
 
 @pytest.mark.backend("jax")
 def test_jax_x64_disabled_rejects_unavailable_promotions() -> None:
-    import jax
-
-    with jax.enable_x64(False):
+    with helpers.jax_enable_x64(False):
         xp = asc.backend("jax").xp
         signed = xp.asarray([[-1]], dtype=xp.int32)
         unsigned = xp.asarray([[2**32 - 1]], dtype=xp.uint32)

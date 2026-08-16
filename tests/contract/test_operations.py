@@ -191,9 +191,7 @@ def test_jax_float64_respects_caller_owned_x64_configuration() -> None:
 
 @pytest.mark.backend("jax")
 def test_checked_jax_context_maps_disabled_x64_as_backend_rejection() -> None:
-    import jax
-
-    with jax.enable_x64():
+    with helpers.jax_enable_x64():
         selected = asc.backend("jax")
         context = asc.CreationContext(
             selected.xp,
@@ -202,7 +200,7 @@ def test_checked_jax_context_maps_disabled_x64_as_backend_rejection() -> None:
         )
 
     with (
-        jax.enable_x64(False),
+        helpers.jax_enable_x64(False),
         pytest.raises(asc.ContextError, match="backend rejected"),
     ):
         asc.create_full((2,), 1.0, context=context)
@@ -224,13 +222,12 @@ def test_jax_ml_dtypes_bfloat16_has_canonical_provenance() -> None:
 
 @pytest.mark.backend("jax")
 def test_stale_jax_float64_is_rejected_when_x64_becomes_disabled() -> None:
-    import jax
     import jax.numpy
 
-    with jax.enable_x64():
+    with helpers.jax_enable_x64():
         value = jax.numpy.asarray([1.0], dtype=jax.numpy.float64)
 
-    with jax.enable_x64(False):
+    with helpers.jax_enable_x64(False):
         assert not asc.is_array(value)
         with pytest.raises(asc.UnsupportedCapabilityError, match="dense CPU"):
             asc.array_namespace(value)

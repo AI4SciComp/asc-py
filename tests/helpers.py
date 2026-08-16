@@ -36,6 +36,21 @@ BACKENDS: typing.Final[tuple[asc_typing.BackendName, ...]] = (
 array_api_strict.set_array_api_strict_flags(api_version="2024.12")
 
 
+def jax_enable_x64(enabled: bool = True) -> typing.ContextManager[None]:
+    """Return the x64 context across the supported JAX release range."""
+    import jax
+
+    context = getattr(jax, "enable_x64", None)
+    if context is None:
+        from jax.experimental import enable_x64
+
+        context = enable_x64
+    factory = typing.cast(
+        typing.Callable[[bool], typing.ContextManager[None]], context
+    )
+    return factory(enabled)
+
+
 class TestNamespace(asc_typing.ArrayNamespace, typing.Protocol):
     """Creation surface needed only by backend-parametrized tests."""
 

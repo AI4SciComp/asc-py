@@ -145,7 +145,13 @@ def _resolve_public_alias(
         )
     # ParamSpecs and private implementation aliases are meaningful signature
     # text but intentionally have no public object page.
-    if target in {"Mode", "P", "Sampler", "asc.data.sampler.Sampler"}:
+    if target in {
+        "Mode",
+        "P",
+        "typing.P",
+        "Sampler",
+        "asc.data.sampler.Sampler",
+    }:
         return content
     return None
 

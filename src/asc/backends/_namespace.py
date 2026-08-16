@@ -1365,6 +1365,19 @@ def _dlpack_validation_call(
     return producer, (producer, *remaining), options
 
 
+def _replace_dlpack_producer(
+    function: typing.Callable[..., object],
+    args: tuple[object, ...],
+    kwargs: dict[str, object],
+    producer: object,
+) -> tuple[tuple[object, ...], dict[str, object]]:
+    """Replace a bound DLPack producer while retaining its call spelling."""
+    if args:
+        return (producer, *args[1:]), kwargs
+    producer_parameter = next(iter(inspect.signature(function).parameters))
+    return args, {**kwargs, producer_parameter: producer}
+
+
 def validate_array_arguments(
     backend: asc_typing.BackendName,
     name: str,
@@ -2246,14 +2259,19 @@ def checked_attribute(
         validation_args = args
         validation_kwargs = kwargs
         producer: object | None = None
+        stage_torch_dlpack = False
+        legacy_numpy_dlpack = False
+        requested_dlpack_copy = (
+            kwargs.get("copy") if name == "from_dlpack" else None
+        )
         if name == "from_dlpack":
             producer, validation_args, validation_kwargs = (
                 _dlpack_validation_call(function, args, kwargs)
             )
+            legacy_numpy_dlpack = backend == "numpy" and producer is None
         if producer is not None:
-            requested_copy = kwargs.get("copy")
             if backend == "torch" and _requires_torch_dlpack_copy(producer):
-                if requested_copy is False:
+                if requested_dlpack_copy is False:
                     raise errors.UnsupportedCapabilityError(
                         "torch namespace.from_dlpack: producer layout cannot "
                         "safely guarantee a no-copy import"
@@ -2267,15 +2285,17 @@ def checked_attribute(
                         "torch namespace.from_dlpack: opaque producer must "
                         "support the copy keyword for safe import"
                     )
-                if requested_copy is None:
-                    kwargs["copy"] = True
-            if _is_preexported_dlpack(producer) and requested_copy is True:
-                kwargs["copy"] = None
+                stage_torch_dlpack = not _is_preexported_dlpack(producer)
             if (
-                kwargs.get("copy") is True
-                or (_is_preexported_dlpack(producer) and requested_copy is True)
-            ) and not _TRUSTED_DLPACK_CONVERSION.get():
-                deferred_dlpack_copy = True
+                _is_preexported_dlpack(producer)
+                and requested_dlpack_copy is True
+            ):
+                kwargs["copy"] = None
+        if (
+            requested_dlpack_copy is True
+            and not _TRUSTED_DLPACK_CONVERSION.get()
+        ):
+            deferred_dlpack_copy = True
         requested_dtype = (
             _requested_dtype(function, name, args, kwargs)
             if name in _dtype.DTYPE_ARGUMENT_FUNCTIONS
@@ -2343,6 +2363,14 @@ def checked_attribute(
         )
         if jax_no_copy_source is not None:
             return jax_no_copy_source
+        if stage_torch_dlpack:
+            from asc.conversion import copy_opaque_cpu_dlpack_producer
+
+            prepared_producer = copy_opaque_cpu_dlpack_producer(producer)
+            args, kwargs = _replace_dlpack_producer(
+                function, args, kwargs, prepared_producer
+            )
+            kwargs["copy"] = None
         if name in _DEVICE_CREATION_FUNCTIONS:
             requested_device = kwargs.get("device")
             preserve_device = name in _DEVICE_PRESERVING_CREATION_FUNCTIONS or (
@@ -2366,7 +2394,12 @@ def checked_attribute(
             else (False, None)
         )
         if not handled:
-            result = function(*args, **kwargs)
+            dispatch_kwargs = kwargs
+            if legacy_numpy_dlpack:
+                dispatch_kwargs = dict(kwargs)
+                dispatch_kwargs.pop("copy", None)
+                dispatch_kwargs.pop("device", None)
+            result = function(*args, **dispatch_kwargs)
         if name == "clip" and expected_result_dtype is not None:
             result = typing.cast(
                 typing.Callable[..., object], namespace.astype

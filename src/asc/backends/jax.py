@@ -230,6 +230,12 @@ def register_random_state(state_type: type[object]) -> None:
     def unflatten(
         metadata: tuple[str, str], leaves: tuple[object, ...]
     ) -> object:
+        if type(leaves[0]) is object:
+            state = object.__new__(state_type)
+            object.__setattr__(state, "backend", metadata[0])
+            object.__setattr__(state, "key", leaves[0])
+            object.__setattr__(state, "version", metadata[1])
+            return state
         return state_type(metadata[0], leaves[0], metadata[1])
 
     jax.tree_util.register_pytree_node(state_type, flatten, unflatten)
