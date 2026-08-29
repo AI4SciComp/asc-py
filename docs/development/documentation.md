@@ -24,10 +24,12 @@ the installed distribution and regenerates ignored autosummary sources from
 the public module list and each module's `__all__`. Rendered HTML and generated
 stubs must not be committed.
 
-The documentation workflow uploads the tested HTML artifact and deploys it
-only after a successful push to `main`. Before the first authorized deployment,
-a repository administrator must select **Settings → Pages → Source → GitHub
-Actions**. That one-time setting has not been changed locally.
+The documentation workflow uploads the tested HTML artifact on every applicable
+build. It deploys only after a successful push to `main` when the repository
+variable `ASC_PY_PAGES_ENABLED` is explicitly set to `true`. Before the first
+authorized deployment, a repository administrator must also select
+**Settings → Pages → Source → GitHub Actions**. Neither opt-in is part of the
+foundation merge; publication requires separate authorization.
 
 ## Google style comparison
 

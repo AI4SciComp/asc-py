@@ -67,6 +67,7 @@ development/documentation
 architecture/overview
 architecture/portability-contract
 architecture/public-api
+architecture/downstream-public-api
 architecture/dependency-policy
 architecture/decisions/0001-import-namespace
 architecture/decisions/0002-array-api-revision

@@ -58,3 +58,7 @@ package metadata, and `PUBLIC_EXPORTS` freezes the supported export manifest.
 All cross-backend, host, device, ownership, dtype, and graph changes are named
 and explicit. Unsupported behavior raises an asc exception; no operation
 silently detaches, transfers, converts, mutates, or falls back through NumPy.
+
+Downstream repositories must also follow the
+[released public API boundary](downstream-public-api.md), including its
+versioning, deprecation, and dependency-direction rules.

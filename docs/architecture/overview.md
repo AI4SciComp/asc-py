@@ -59,3 +59,7 @@ only under their documented policy.
 
 PDEs, physics-specific generators, solvers, neural operators, training,
 optimizers, and AutoML belong in downstream projects.
+
+A future `asc-no` may consume only the released public interfaces listed in
+the [downstream API boundary](downstream-public-api.md). The dependency points
+from `asc-no` to `asc-py`; this foundation never imports its specialization.

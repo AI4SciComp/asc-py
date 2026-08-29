@@ -23,6 +23,7 @@ _REQUIRED = (
     "SECURITY.md",
     ".github/workflows/docs.yml",
     "docs/api/index.rst",
+    "docs/architecture/downstream-public-api.md",
     "docs/conf.py",
     "docs/index.md",
     "src/asc/py.typed",

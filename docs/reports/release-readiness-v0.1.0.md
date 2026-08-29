@@ -99,6 +99,6 @@ dependency source or binary is vendored. The docs extra resolves Sphinx 9.1.0
 No commit, push, pull request, tag, publication, release, repository-setting
 change, or DeepMLT modification was performed. Hosted CI, provisional-platform
 evidence, signing, tagging, and package publication remain external authorized
-actions. Documentation publication additionally requires the one-time
-administrator action **Settings → Pages → Source → GitHub Actions**; it was not
-performed.
+actions. Documentation publication additionally requires the repository
+variable `ASC_PY_PAGES_ENABLED=true` and the one-time administrator action
+**Settings → Pages → Source → GitHub Actions**; neither opt-in was performed.

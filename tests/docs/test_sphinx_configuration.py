@@ -45,6 +45,7 @@ _NARRATIVES = (
     "development/contributing.md",
     "development/testing.md",
     "development/documentation.md",
+    "architecture/downstream-public-api.md",
     "release/changelog.md",
     "release/migration.md",
     "release/release-notes.md",
@@ -119,6 +120,7 @@ def test_pages_workflow_is_gated_and_least_privilege() -> None:
     assert "id-token: write" in workflow
     assert "github.event_name == 'push'" in workflow
     assert "refs/heads/main" in workflow
+    assert "vars.ASC_PY_PAGES_ENABLED == 'true'" in workflow
     assert "github.event_name == 'schedule'" in workflow
     assert "workflow_dispatch:" in workflow
     assert "deploy-pages@" in workflow
