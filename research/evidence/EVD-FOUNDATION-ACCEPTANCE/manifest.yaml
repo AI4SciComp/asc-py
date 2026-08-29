@@ -1,0 +1,22 @@
+api_version: ai4scicomp.research/v1
+kind: ResearchEvidence
+metadata:
+  id: EVD-FOUNDATION-ACCEPTANCE
+  title: Full sidecar-state foundation acceptance
+  status: verified
+  labels: [tests, portability, cpu]
+spec:
+  evidence_type: unit_test
+  produced_by_run: null
+  sources:
+    - uri: file:research/evidence/results/foundation-acceptance.json
+      sha256: 10964f8c6027323f9c45df20be2ab778c810fdec9ab7579863f0efbb8214f41b
+      media_type: application/json
+      license: Apache-2.0
+  supports:
+    - CLM-BASE-INDEPENDENT
+    - CLM-OPTIONAL-BACKENDS
+    - CLM-NATIVE-ARRAYS
+    - CLM-EXPLICIT-CONVERSION
+    - CLM-CHECKS-GREEN
+  limitations: [CPU execution only; no GPU coverage is claimed]

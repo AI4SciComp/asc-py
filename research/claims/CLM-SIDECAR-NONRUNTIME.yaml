@@ -1,0 +1,14 @@
+api_version: ai4scicomp.research/v1
+kind: ResearchClaim
+metadata:
+  id: CLM-SIDECAR-NONRUNTIME
+  title: Pilot adds no ASC OS runtime dependency
+  status: active
+  labels: [sidecar, runtime]
+spec:
+  context: CTX-RELEASE
+  statement: The pilot uses ASC OS only from a separate development environment and adds no runtime dependency or import.
+  assumptions: [ASM-SIDECAR-ONLY]
+  depends_on: []
+  evidence: [EVD-RUNTIME-PACKAGE]
+  projections: {pilot: research/README.md}

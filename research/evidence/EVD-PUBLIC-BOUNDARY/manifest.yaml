@@ -1,0 +1,20 @@
+api_version: ai4scicomp.research/v1
+kind: ResearchEvidence
+metadata:
+  id: EVD-PUBLIC-BOUNDARY
+  title: Authored downstream public API boundary
+  status: verified
+  labels: [api, architecture]
+spec:
+  evidence_type: code_review
+  produced_by_run: null
+  sources:
+    - uri: file:docs/architecture/downstream-public-api.md
+      sha256: 7a70ede206f8dcbf6124952d6c176c8ab163a802d2e5baf33c91d05af8ced363
+      media_type: text/markdown
+      license: Apache-2.0
+  supports:
+    - CLM-NATIVE-ARRAYS
+    - CLM-EXPLICIT-CONVERSION
+    - CLM-DOWNSTREAM-BOUNDARY
+  limitations: [documents a public contract but does not implement asc-no]

@@ -1,0 +1,17 @@
+api_version: ai4scicomp.research/v1
+kind: ResearchEvidence
+metadata:
+  id: EVD-RUNTIME-PACKAGE
+  title: Runtime and package non-interference audit
+  status: verified
+  labels: [runtime, package, security]
+spec:
+  evidence_type: artifact_build
+  produced_by_run: null
+  sources:
+    - uri: file:research/evidence/results/runtime-package-audit.json
+      sha256: 20b71621475792da9923ed3d700122215fa11a85f495d6bf00a417d8c6ce3044
+      media_type: application/json
+      license: Apache-2.0
+  supports: [CLM-SIDECAR-NONRUNTIME, CLM-CHECKS-GREEN]
+  limitations: [artifact inspection is local and no package was published]

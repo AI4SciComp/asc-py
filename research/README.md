@@ -15,6 +15,11 @@ imports, data/persistence types, reproducibility, documentation, support, and
 compatibility policies agree. These are declarative compatibility checks, not
 a formal proof of a sheaf condition.
 
+Seven active claims are backed by three verified evidence records: the full
+foundation acceptance result, the authored public downstream boundary, and a
+runtime/package non-interference audit. Evidence records contain immutable
+local file checksums; an agent assertion alone does not verify a claim.
+
 Generated Codex and Claude projections remain ignored local output under
 `.ai/generated/`. Their source hashes, generator version, deterministic
 comparison, and deliberate-conflict result are recorded in the draft pull
@@ -22,3 +27,12 @@ request and post-runbook evidence report.
 
 The pilot neither implements the planned `asc-no` repository nor changes
 runtime, source, tests, package metadata, publication state, or release state.
+
+The authoritative local validation is:
+
+```text
+asc-os validate
+asc-os cover check COV-ASC-PY
+asc-os overlap check
+make check
+```

@@ -1,0 +1,14 @@
+api_version: ai4scicomp.research/v1
+kind: ResearchClaim
+metadata:
+  id: CLM-BASE-INDEPENDENT
+  title: Base installation is independent of optional frameworks
+  status: active
+  labels: [numpy, portability]
+spec:
+  context: CTX-BACKENDS
+  statement: The base NumPy installation imports and operates without JAX or Torch installed or imported.
+  assumptions: [ASM-CPU-VALIDATION]
+  depends_on: []
+  evidence: [EVD-FOUNDATION-ACCEPTANCE]
+  projections: {pilot: research/README.md}

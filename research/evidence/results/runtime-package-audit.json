@@ -1,0 +1,27 @@
+{
+  "schema": "ai4scicomp.pilot-evidence/v1",
+  "recorded_at_utc": "2026-08-29T18:16:03Z",
+  "repository": "AI4SciComp/asc-py",
+  "base_commit": "23a639ab7e91c629c42103b80d8aeeac66fac2a6",
+  "sidecar_manifest_commit": "f0386c1657c7cbc9742656af430ba8bbde4a1bef",
+  "pyproject_sha256": "a7ff07d4c3669938eb620c1fe39ba041f213416736d781ae8f03ce305297fbdd",
+  "uv_lock_sha256": "689eadf742c67fdbc5e1c8e660d6f85f64ebae66b83c598b5414d728a62c2bd1",
+  "runtime_dependency_scan": {
+    "paths": ["pyproject.toml", "src"],
+    "asc_os_or_asc_no_matches": 0,
+    "exit_code": 0
+  },
+  "artifact_scan": {
+    "wheel_entries": 64,
+    "sdist_entries": 196,
+    "research_or_generated_sidecar_entries": 0,
+    "twine_check": "passed",
+    "wheel_content_check": "passed"
+  },
+  "publication": {
+    "package": false,
+    "tag": false,
+    "release": false,
+    "pages": false
+  }
+}

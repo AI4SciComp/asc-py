@@ -1,0 +1,14 @@
+api_version: ai4scicomp.research/v1
+kind: ResearchClaim
+metadata:
+  id: CLM-DOWNSTREAM-BOUNDARY
+  title: Future downstream public boundary is documented
+  status: active
+  labels: [downstream, api]
+spec:
+  context: CTX-API
+  statement: A future asc-no repository is constrained to released public asc-py APIs and may not cause a reverse dependency.
+  assumptions: [ASM-PUBLIC-RELEASES]
+  depends_on: []
+  evidence: [EVD-PUBLIC-BOUNDARY]
+  projections: {pilot: research/README.md}

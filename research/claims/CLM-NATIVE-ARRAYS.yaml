@@ -1,0 +1,14 @@
+api_version: ai4scicomp.research/v1
+kind: ResearchClaim
+metadata:
+  id: CLM-NATIVE-ARRAYS
+  title: Supported arrays remain native
+  status: active
+  labels: [arrays, api]
+spec:
+  context: CTX-API
+  statement: Supported public operations preserve native NumPy, JAX, and Torch array types rather than introducing opaque wrappers.
+  assumptions: [ASM-CPU-VALIDATION]
+  depends_on: []
+  evidence: [EVD-FOUNDATION-ACCEPTANCE, EVD-PUBLIC-BOUNDARY]
+  projections: {pilot: research/README.md}
