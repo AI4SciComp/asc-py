@@ -1,0 +1,24 @@
+api_version: ai4scicomp.research/v1
+kind: ResearchOverlap
+metadata:
+  id: OVL-BACKENDS-DATA
+  title: Backend-independent storage and reproducibility agreement
+  status: active
+  labels: [backends, data]
+spec:
+  left: CTX-BACKENDS
+  right: CTX-DATA
+  checks:
+    - id: backend-independent-storage
+      type: value_equal
+      left: {file: research/contexts/backends/state.yaml, pointer: /storage_contract/backend_independent}
+      right: {file: research/contexts/data/state.yaml, pointer: /storage_contract/backend_independent}
+    - id: explicit-reconstruction
+      type: value_equal
+      left: {file: research/contexts/backends/state.yaml, pointer: /storage_contract/reconstruction}
+      right: {file: research/contexts/data/state.yaml, pointer: /storage_contract/reconstruction}
+    - id: reproducibility
+      type: value_equal
+      left: {file: research/contexts/backends/state.yaml, pointer: /storage_contract/reproducibility}
+      right: {file: research/contexts/data/state.yaml, pointer: /storage_contract/reproducibility}
+  failure_policy: block_gluing

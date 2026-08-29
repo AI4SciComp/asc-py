@@ -1,0 +1,28 @@
+api_version: ai4scicomp.research/v1
+kind: ResearchContext
+metadata:
+  id: CTX-BACKENDS
+  title: NumPy core and optional backend adapters
+  status: active
+  labels: [backends, portability]
+spec:
+  parent: CTX-ROOT
+  question: Do NumPy, optional JAX, and optional Torch obey one explicit portable backend contract?
+  inputs:
+    contexts: []
+    files:
+      - src/asc/core/backend.py
+      - src/asc/backends/capabilities.py
+      - docs/architecture/portability-contract.md
+      - research/contexts/backends/state.yaml
+  outputs:
+    - {type: contract, path: research/contexts/backends/state.yaml}
+  acceptance:
+    - NumPy is the required base backend
+    - JAX and Torch remain separately installable and lazily imported
+    - arrays stay native and cross-backend conversion is explicit
+  excluded_scope:
+    - GPU coverage in this pilot
+    - opaque array wrappers
+  permitted_tools: [validate, context-build, overlap-check]
+  excluded_paths: [.git, .venv]

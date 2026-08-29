@@ -1,0 +1,7 @@
+foundation: asc-py
+plane: scientific-computing
+contexts: [CTX-API, CTX-BACKENDS, CTX-DATA, CTX-RELEASE]
+runtime_dependencies: [array-api-compat, numpy]
+research_sidecar: asc-os
+sidecar_runtime_dependency: false
+planned_downstream: asc-no

@@ -1,0 +1,28 @@
+api_version: ai4scicomp.research/v1
+kind: ResearchOverlap
+metadata:
+  id: OVL-API-RELEASE
+  title: Public API release-evidence agreement
+  status: active
+  labels: [api, release]
+spec:
+  left: CTX-API
+  right: CTX-RELEASE
+  checks:
+    - id: public-documentation
+      type: value_equal
+      left: {file: research/contexts/api/state.yaml, pointer: /release_contract/public_api_documented}
+      right: {file: research/contexts/release/state.yaml, pointer: /release_contract/public_api_documented}
+    - id: support-matrix
+      type: value_equal
+      left: {file: research/contexts/api/state.yaml, pointer: /release_contract/support_matrix}
+      right: {file: research/contexts/release/state.yaml, pointer: /release_contract/support_matrix}
+    - id: compatibility-evidence
+      type: value_equal
+      left: {file: research/contexts/api/state.yaml, pointer: /release_contract/compatibility}
+      right: {file: research/contexts/release/state.yaml, pointer: /release_contract/compatibility}
+    - id: deprecation-evidence
+      type: value_equal
+      left: {file: research/contexts/api/state.yaml, pointer: /release_contract/deprecation}
+      right: {file: research/contexts/release/state.yaml, pointer: /release_contract/deprecation}
+  failure_policy: block_gluing

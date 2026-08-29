@@ -1,0 +1,29 @@
+api_version: ai4scicomp.research/v1
+kind: ResearchContext
+metadata:
+  id: CTX-DATA
+  title: Data, persistence, and reproducibility contracts
+  status: active
+  labels: [data, persistence, reproducibility]
+spec:
+  parent: CTX-ROOT
+  question: Are datasets, persistence, serialization, and reproducibility backend-neutral and public?
+  inputs:
+    contexts: []
+    files:
+      - src/asc/data/__init__.py
+      - src/asc/random/__init__.py
+      - docs/user-guide/data.md
+      - docs/user-guide/random.md
+      - research/contexts/data/state.yaml
+  outputs:
+    - {type: contract, path: research/contexts/data/state.yaml}
+  acceptance:
+    - public dataset and persistence types are documented
+    - storage and reconstruction remain backend independent
+    - random state and transfers are explicit
+  excluded_scope:
+    - domain-specific datasets
+    - remote object stores or network fetching
+  permitted_tools: [validate, context-build, overlap-check]
+  excluded_paths: [.git, .venv]

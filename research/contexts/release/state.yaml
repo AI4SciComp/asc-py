@@ -1,0 +1,11 @@
+release_contract:
+  public_api_documented: true
+  support_matrix: docs/architecture/support-matrix.md
+  compatibility: semantic_and_documented
+  deprecation: documented_before_removal
+validation:
+  local_gate: make_check
+  required_profiles: [base, jax_only, torch_only, full_development]
+publication:
+  performed: false
+  pages_enabled: false

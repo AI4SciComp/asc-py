@@ -1,0 +1,7 @@
+assumptions:
+  - id: ASM-SIDECAR-ONLY
+    statement: ASC OS is invoked from a separate development environment and is never an asc-py runtime dependency.
+  - id: ASM-PUBLIC-RELEASES
+    statement: A future asc-no repository may consume only released public asc-py APIs.
+  - id: ASM-CPU-VALIDATION
+    statement: This pilot validates CPU profiles and does not claim GPU coverage.

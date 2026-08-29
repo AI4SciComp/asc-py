@@ -1,0 +1,13 @@
+array_contract:
+  representation: native_backend_arrays
+  public_protocol: asc_public_array_api
+  conversion: explicit
+optional_frameworks: [jax, torch]
+storage_contract:
+  backend_independent: true
+  reconstruction: explicit_backend_selection
+  reproducibility: explicit_random_state
+profiles:
+  base: numpy
+  jax: optional_independent
+  torch: optional_independent

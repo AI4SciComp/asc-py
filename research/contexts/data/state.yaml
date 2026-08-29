@@ -1,0 +1,10 @@
+data_contract:
+  public_types: asc_data_public_types
+  serialization: stable_documented_formats
+storage_contract:
+  backend_independent: true
+  reconstruction: explicit_backend_selection
+  reproducibility: explicit_random_state
+formats:
+  base: [npy, npz, csv]
+  optional: [hdf5, mat]

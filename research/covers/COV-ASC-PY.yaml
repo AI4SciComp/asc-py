@@ -1,0 +1,20 @@
+api_version: ai4scicomp.research/v1
+kind: ResearchCover
+metadata:
+  id: COV-ASC-PY
+  title: ASC Python foundation bounded-context cover
+  status: active
+  labels: [primary, pilot]
+spec:
+  target: CTX-ROOT
+  members: [CTX-API, CTX-BACKENDS, CTX-DATA, CTX-RELEASE]
+  requirements:
+    public_api: [CTX-API]
+    portable_backends: [CTX-BACKENDS]
+    data_and_reproducibility: [CTX-DATA]
+    release_evidence: [CTX-RELEASE]
+  required_overlaps:
+    - OVL-API-BACKENDS
+    - OVL-API-DATA
+    - OVL-BACKENDS-DATA
+    - OVL-API-RELEASE
