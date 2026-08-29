@@ -1,0 +1,243 @@
+[build-system]
+requires = ["hatchling>=1.31,<2"]
+build-backend = "hatchling.build"
+
+[project]
+name = "asc-py"
+version = "0.1.0"
+description = "Portable foundational Python infrastructure for AI4SciComp"
+readme = "README.md"
+requires-python = ">=3.12,<3.15"
+license = "Apache-2.0"
+license-files = ["LICENSE"]
+authors = [{ name = "AI4SciComp contributors" }]
+keywords = ["array-api", "jax", "numpy", "pytorch", "scientific-computing"]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Intended Audience :: Developers",
+  "Intended Audience :: Science/Research",
+  "License :: OSI Approved :: Apache Software License",
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Programming Language :: Python :: 3.14",
+  "Typing :: Typed",
+]
+dependencies = [
+  "array-api-compat>=1.13,<1.14",
+  "numpy>=1.26.4,<2.6",
+]
+
+[project.optional-dependencies]
+torch = ["torch>=2.13,<2.14"]
+jax = ["jax>=0.6,<0.11"]
+io-hdf5 = ["h5py>=3.11,<4"]
+io-mat = ["scipy>=1.13,<2"]
+docs = [
+  "myst-parser>=5.1,<6",
+  "pydata-sphinx-theme>=0.19,<0.20",
+  "sphinx>=9.1,<10",
+]
+all = [
+  "h5py>=3.11,<4",
+  "jax>=0.6,<0.11",
+  "scipy>=1.13,<2",
+  "torch>=2.13,<2.14",
+]
+
+[project.urls]
+Changelog = "https://github.com/AI4SciComp/asc-py/blob/main/CHANGELOG.md"
+Documentation = "https://ai4scicomp.github.io/asc-py/"
+Issues = "https://github.com/AI4SciComp/asc-py/issues"
+Repository = "https://github.com/AI4SciComp/asc-py"
+
+[dependency-groups]
+quality = [
+  "pre-commit>=4.3,<5",
+  "pylint==4.0.7",
+  "pyright==1.1.411",
+  "ruff==0.16.2",
+]
+test = [
+  "array-api-strict>=2.3,<2.7",
+  "hypothesis==6.165.2",
+  "pytest==9.1.1",
+  "pytest-cov>=7,<8",
+]
+benchmark = ["pytest-benchmark>=5.2,<6"]
+build = [
+  "build==1.5.0",
+  "check-wheel-contents>=0.6,<0.7",
+  "twine>=6.2,<7",
+]
+
+[tool.hatch.build.targets.sdist]
+core-metadata-version = "2.4"
+include = [
+  "/.agent",
+  "/.github",
+  "/.pre-commit-config.yaml",
+  "/AGENTS.md",
+  "/asc-py-automatic-documentation-runbook.md",
+  "/asc-py-comprehensive-development-runbook.md",
+  "/CHANGELOG.md",
+  "/CITATION.cff",
+  "/CODE_OF_CONDUCT.md",
+  "/CONTRIBUTING.md",
+  "/LICENSE",
+  "/Makefile",
+  "/README.md",
+  "/SECURITY.md",
+  "/benchmarks",
+  "/docs",
+  "/examples",
+  "/pyproject.toml",
+  "/scripts",
+  "/src",
+  "/tests",
+  "/uv.lock",
+]
+
+[tool.hatch.build.targets.wheel]
+core-metadata-version = "2.4"
+packages = ["src/asc"]
+
+[tool.pyink]
+line-length = 80
+target-version = ["py312"]
+pyink-use-majority-quotes = true
+
+[tool.ruff]
+line-length = 80
+target-version = "py312"
+src = ["src", "tests", "scripts", "benchmarks", "docs"]
+
+[tool.ruff.lint]
+select = [
+  "B",
+  "C4",
+  "D",
+  "E",
+  "F",
+  "I",
+  "N",
+  "PERF",
+  "RUF",
+  "SIM",
+  "UP",
+  "W",
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**/*.py" = ["D100", "D103"]
+"src/asc/data/combined.py" = ["D107"]
+"src/asc/data/dataset.py" = ["D105", "D107"]
+"src/asc/data/loader.py" = ["D107"]
+"src/asc/data/module.py" = ["D107"]
+"src/asc/data/sampler.py" = ["D105", "D107"]
+"src/asc/data/transforms.py" = ["D102", "D105", "D107"]
+"src/asc/fft/__init__.py" = ["D107"]
+"src/asc/linalg/__init__.py" = ["D107"]
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+[tool.ruff.lint.isort]
+known-first-party = ["asc"]
+
+[tool.ruff.format]
+indent-style = "space"
+line-ending = "lf"
+quote-style = "double"
+
+[tool.pylint.main]
+py-version = "3.12"
+recursive = true
+fail-under = 9.5
+
+[tool.pylint.messages_control]
+disable = [
+  "consider-using-from-import",
+  "cyclic-import",
+  "duplicate-code",
+  "import-outside-toplevel",
+  "line-too-long",
+  "missing-function-docstring",
+  "missing-module-docstring",
+  "protected-access",
+  "too-few-public-methods",
+  "too-many-arguments",
+  "too-many-boolean-expressions",
+  "too-many-branches",
+  "too-many-instance-attributes",
+  "too-many-locals",
+  "too-many-positional-arguments",
+  "too-many-return-statements",
+  "try-except-raise",
+]
+
+[tool.pylint.format]
+max-line-length = 80
+
+[tool.pyright]
+include = ["src", "tests", "scripts", "benchmarks", "docs"]
+exclude = ["dist", "docs/_build", "docs/api/generated"]
+pythonVersion = "3.12"
+venvPath = "."
+venv = ".venv"
+typeCheckingMode = "strict"
+reportMissingTypeStubs = "none"
+# Scientific namespaces are selected dynamically and typed structurally at the
+# public boundary. Pyright cannot model the runtime Array API protocol or the
+# optional backend module surface without backend-specific coupling.
+reportArgumentType = "none"
+reportAttributeAccessIssue = "none"
+reportCallIssue = "none"
+reportDeprecated = "none"
+reportIndexIssue = "none"
+reportOperatorIssue = "none"
+reportUnknownArgumentType = "none"
+reportUnknownLambdaType = "none"
+reportUnknownMemberType = "none"
+reportUnknownVariableType = "none"
+reportUnnecessaryCast = "none"
+reportUnnecessaryIsInstance = "none"
+reportUnnecessaryTypeIgnoreComment = "none"
+reportUntypedNamedTuple = "none"
+
+[tool.pytest.ini_options]
+addopts = [
+  "--strict-config",
+  "--strict-markers",
+  "--cov=asc",
+  "--cov-branch",
+  "--cov-report=term-missing",
+  "--cov-fail-under=90",
+  "-ra",
+]
+filterwarnings = ["error"]
+testpaths = ["tests"]
+markers = [
+  "backend(name): test requires the named optional backend",
+  "packaging: clean-environment package test",
+]
+
+[tool.coverage.run]
+branch = true
+source = ["asc"]
+
+[tool.coverage.report]
+fail_under = 90
+show_missing = true
+skip_covered = false
+
+[tool.uv]
+required-version = ">=0.12.3,<0.13"
+
+[[tool.uv.index]]
+name = "pytorch-cpu"
+url = "https://download.pytorch.org/whl/cpu"
+explicit = true
+
+[tool.uv.sources]
+torch = { index = "pytorch-cpu" }
