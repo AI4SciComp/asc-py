@@ -1,0 +1,32 @@
+{
+  "schema": "ai4scicomp.pilot-evidence/v1",
+  "recorded_at_utc": "2026-08-29T18:16:03Z",
+  "repository": "AI4SciComp/asc-py",
+  "base_commit": "23a639ab7e91c629c42103b80d8aeeac66fac2a6",
+  "sidecar_manifest_commit": "f0386c1657c7cbc9742656af430ba8bbde4a1bef",
+  "commands": [
+    {
+      "command": "make check",
+      "exit_code": 0,
+      "semantic_tests": 1213,
+      "branch_coverage_percent": 90.51,
+      "dependency_floor_tests": 1213,
+      "dependency_floor_branch_coverage_percent": 90.57
+    },
+    {
+      "command": "uv run --no-sync python -I <base-import-probe>",
+      "exit_code": 0,
+      "result": "asc 0.1.0 imported without jax, torch, asc_os, or asc_no"
+    },
+    {
+      "command": "scripts/check_clean_install.py via make build",
+      "exit_code": 0,
+      "profiles": ["base-wheel", "base-sdist", "jax-only", "torch-only", "hdf5", "mat", "all"]
+    }
+  ],
+  "github_main_runs": [
+    "https://github.com/AI4SciComp/asc-py/actions/runs/33265760792",
+    "https://github.com/AI4SciComp/asc-py/actions/runs/33265760846"
+  ],
+  "limitations": ["CPU execution only; no GPU coverage is claimed"]
+}

@@ -1,0 +1,5 @@
+symbols:
+  ASC-OS: Model-agnostic research-state sidecar used only during development.
+  ASC-PY: Domain-neutral Python scientific-computing foundation.
+  ASC-NO: Planned downstream neural-operator repository, not implemented here.
+  public-api: Released, documented symbols exported by asc-py.

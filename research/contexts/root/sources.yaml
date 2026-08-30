@@ -1,0 +1,6 @@
+sources:
+  - README.md
+  - AGENTS.md
+  - docs/architecture/portability-contract.md
+  - docs/architecture/downstream-public-api.md
+  - docs/architecture/support-matrix.md

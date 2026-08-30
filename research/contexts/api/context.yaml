@@ -1,0 +1,28 @@
+api_version: ai4scicomp.research/v1
+kind: ResearchContext
+metadata:
+  id: CTX-API
+  title: Public Python API and downstream contract
+  status: active
+  labels: [api, compatibility]
+spec:
+  parent: CTX-ROOT
+  question: Which stable public interfaces and compatibility promises may downstream users consume?
+  inputs:
+    contexts: []
+    files:
+      - src/asc/__init__.py
+      - docs/architecture/public-api.md
+      - docs/architecture/downstream-public-api.md
+      - research/contexts/api/state.yaml
+  outputs:
+    - {type: contract, path: research/contexts/api/state.yaml}
+  acceptance:
+    - public symbols do not require private-module imports
+    - arrays remain native and conversions are explicit
+    - the future downstream boundary uses released public APIs only
+  excluded_scope:
+    - private implementation details
+    - neural-operator-specific interfaces
+  permitted_tools: [validate, context-build, overlap-check]
+  excluded_paths: [.git, .venv]

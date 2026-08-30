@@ -1,0 +1,28 @@
+api_version: ai4scicomp.research/v1
+kind: ResearchOverlap
+metadata:
+  id: OVL-API-BACKENDS
+  title: Public API and backend contract agreement
+  status: active
+  labels: [arrays, backends]
+spec:
+  left: CTX-API
+  right: CTX-BACKENDS
+  checks:
+    - id: native-arrays
+      type: value_equal
+      left: {file: research/contexts/api/state.yaml, pointer: /array_contract/representation}
+      right: {file: research/contexts/backends/state.yaml, pointer: /array_contract/representation}
+    - id: public-protocol
+      type: value_equal
+      left: {file: research/contexts/api/state.yaml, pointer: /array_contract/public_protocol}
+      right: {file: research/contexts/backends/state.yaml, pointer: /array_contract/public_protocol}
+    - id: explicit-conversion
+      type: value_equal
+      left: {file: research/contexts/api/state.yaml, pointer: /array_contract/conversion}
+      right: {file: research/contexts/backends/state.yaml, pointer: /array_contract/conversion}
+    - id: optional-frameworks
+      type: set_equal
+      left: {file: research/contexts/api/state.yaml, pointer: /optional_frameworks}
+      right: {file: research/contexts/backends/state.yaml, pointer: /optional_frameworks}
+  failure_policy: block_gluing

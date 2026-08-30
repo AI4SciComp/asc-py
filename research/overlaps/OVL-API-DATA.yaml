@@ -1,0 +1,20 @@
+api_version: ai4scicomp.research/v1
+kind: ResearchOverlap
+metadata:
+  id: OVL-API-DATA
+  title: Public data and persistence type agreement
+  status: active
+  labels: [api, data]
+spec:
+  left: CTX-API
+  right: CTX-DATA
+  checks:
+    - id: public-data-types
+      type: value_equal
+      left: {file: research/contexts/api/state.yaml, pointer: /data_contract/public_types}
+      right: {file: research/contexts/data/state.yaml, pointer: /data_contract/public_types}
+    - id: serialization-stability
+      type: value_equal
+      left: {file: research/contexts/api/state.yaml, pointer: /data_contract/serialization}
+      right: {file: research/contexts/data/state.yaml, pointer: /data_contract/serialization}
+  failure_policy: block_gluing

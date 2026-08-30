@@ -1,0 +1,17 @@
+api_version: ai4scicomp.research/v1
+kind: ResearchProject
+metadata:
+  id: PRJ-ASC-PY
+  title: ASC Python foundation research sidecar
+  status: active
+  labels: [asc-py, sidecar, pilot]
+spec:
+  repository: AI4SciComp/asc-py
+  root_context: CTX-ROOT
+  notation: research/notation.yaml
+  assumptions: research/assumptions.yaml
+  required_covers: [COV-ASC-PY]
+  artifact_targets: []
+  policies:
+    verified_claim_requires_evidence: true
+    generated_outputs_are_authoritative: false

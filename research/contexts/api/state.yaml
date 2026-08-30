@@ -1,0 +1,16 @@
+array_contract:
+  representation: native_backend_arrays
+  public_protocol: asc_public_array_api
+  conversion: explicit
+optional_frameworks: [jax, torch]
+data_contract:
+  public_types: asc_data_public_types
+  serialization: stable_documented_formats
+release_contract:
+  public_api_documented: true
+  support_matrix: docs/architecture/support-matrix.md
+  compatibility: semantic_and_documented
+  deprecation: documented_before_removal
+downstream_contract:
+  direction: asc-no_to_released_asc-py
+  private_imports: forbidden

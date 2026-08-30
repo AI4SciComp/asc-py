@@ -1,0 +1,32 @@
+api_version: ai4scicomp.research/v1
+kind: ResearchContext
+metadata:
+  id: CTX-RELEASE
+  title: Validation, packaging, support, and security evidence
+  status: active
+  labels: [release, security, evidence]
+spec:
+  parent: CTX-ROOT
+  question: Does the foundation meet its documented test, package, support, and security gates without publication?
+  inputs:
+    contexts: []
+    files:
+      - Makefile
+      - pyproject.toml
+      - SECURITY.md
+      - docs/architecture/support-matrix.md
+      - docs/reports/release-readiness-v0.1.0.md
+      - research/contexts/release/state.yaml
+  outputs:
+    - {type: contract, path: research/contexts/release/state.yaml}
+  acceptance:
+    - the complete local release gate passes
+    - base, JAX-only, and Torch-only artifact profiles pass independently
+    - built artifacts exclude local sidecar state
+    - no package, tag, release, site, or deployment is published
+  excluded_scope:
+    - package publication
+    - GitHub release or tag creation
+    - Pages deployment
+  permitted_tools: [validate, context-build, overlap-check]
+  excluded_paths: [.git, .venv]

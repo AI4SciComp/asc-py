@@ -1,0 +1,16 @@
+api_version: ai4scicomp.research/v1
+kind: ResearchDecision
+metadata:
+  id: DEC-DOWNSTREAM-BOUNDARY
+  title: Preserve one-way public downstream dependencies
+  status: active
+  labels: [architecture, dependency]
+spec:
+  decision: A future asc-no repository may depend only on released public asc-py APIs; asc-py must never depend on asc-no; neural-operator-specific abstractions remain outside asc-py; ASC OS is a development and research sidecar, not a runtime dependency.
+  rationale:
+    - asc-py remains domain-neutral and independently releasable
+    - optional scientific specializations cannot leak into foundation imports
+    - research-state tooling remains outside the numerical runtime
+  evidence: [EVD-PUBLIC-BOUNDARY, EVD-RUNTIME-PACKAGE]
+  supersedes: []
+  affected_contexts: [CTX-ROOT, CTX-API, CTX-BACKENDS, CTX-DATA, CTX-RELEASE]

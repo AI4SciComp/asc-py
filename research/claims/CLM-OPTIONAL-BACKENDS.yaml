@@ -1,0 +1,14 @@
+api_version: ai4scicomp.research/v1
+kind: ResearchClaim
+metadata:
+  id: CLM-OPTIONAL-BACKENDS
+  title: JAX and Torch profiles are optional and independent
+  status: active
+  labels: [jax, torch, portability]
+spec:
+  context: CTX-BACKENDS
+  statement: The JAX-only and Torch-only profiles install and operate independently without requiring the other framework.
+  assumptions: [ASM-CPU-VALIDATION]
+  depends_on: [CLM-BASE-INDEPENDENT]
+  evidence: [EVD-FOUNDATION-ACCEPTANCE]
+  projections: {pilot: research/README.md}

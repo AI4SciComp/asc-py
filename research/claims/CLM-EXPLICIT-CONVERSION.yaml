@@ -1,0 +1,14 @@
+api_version: ai4scicomp.research/v1
+kind: ResearchClaim
+metadata:
+  id: CLM-EXPLICIT-CONVERSION
+  title: Conversion and transfer operations are explicit
+  status: active
+  labels: [conversion, api]
+spec:
+  context: CTX-API
+  statement: Cross-backend conversion, host transfer, device movement, copying, casting, and detach operations are explicit public actions.
+  assumptions: []
+  depends_on: [CLM-NATIVE-ARRAYS]
+  evidence: [EVD-FOUNDATION-ACCEPTANCE, EVD-PUBLIC-BOUNDARY]
+  projections: {pilot: research/README.md}

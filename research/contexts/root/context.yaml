@@ -1,0 +1,30 @@
+api_version: ai4scicomp.research/v1
+kind: ResearchContext
+metadata:
+  id: CTX-ROOT
+  title: ASC Python foundation contract
+  status: active
+  labels: [root, foundation]
+spec:
+  parent: null
+  question: Does the asc-py foundation preserve its public, portable, and releasable development contract?
+  inputs:
+    contexts: []
+    files:
+      - README.md
+      - AGENTS.md
+      - pyproject.toml
+      - docs/architecture/downstream-public-api.md
+      - research/contexts/root/state.yaml
+  outputs:
+    - {type: research_state, path: research/contexts/root/state.yaml}
+  acceptance:
+    - the declared API, backend, data, and release cover passes
+    - all required overlaps agree before gluing
+    - asc-py has no ASC OS or ASC NO runtime dependency
+  excluded_scope:
+    - neural-operator models or training
+    - package publication or release creation
+    - executable agent skills or remote MCP transports
+  permitted_tools: [validate, context-build, cover-check, overlap-check, glue-manifest]
+  excluded_paths: [.git, .venv]

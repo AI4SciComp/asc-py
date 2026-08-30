@@ -1,0 +1,14 @@
+api_version: ai4scicomp.research/v1
+kind: ResearchClaim
+metadata:
+  id: CLM-CHECKS-GREEN
+  title: Repository checks remain green after sidecar adoption
+  status: active
+  labels: [validation, release]
+spec:
+  context: CTX-RELEASE
+  statement: The complete asc-py local release gate and isolated package/runtime audit pass with the authored sidecar state present.
+  assumptions: [ASM-CPU-VALIDATION]
+  depends_on: [CLM-SIDECAR-NONRUNTIME]
+  evidence: [EVD-FOUNDATION-ACCEPTANCE, EVD-RUNTIME-PACKAGE]
+  projections: {pilot: research/README.md}
