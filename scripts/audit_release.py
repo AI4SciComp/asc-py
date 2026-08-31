@@ -12,6 +12,7 @@ import tomllib
 
 _REQUIRED = (
     ".github/workflows/ci.yml",
+    ".github/workflows/release.yml",
     "AGENTS.md",
     "CHANGELOG.md",
     "CITATION.cff",

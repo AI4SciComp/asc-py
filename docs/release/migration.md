@@ -1,6 +1,6 @@
 # Migration notes
 
-## Unreleased 0.1.0 namespace decision
+## 0.1.0 namespace decision
 
 Early local discovery material used the import name `asc_py`. Before any
 release, organization direction changed the public import to `asc` while the

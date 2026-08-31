@@ -45,8 +45,7 @@ for its documented public API after the 0.1.0 contract is released.
   completed Torch complex/NaN unique semantics; and preserved destination
   dtypes and scalar-edge behavior across DLPack, MATLAB, HDF5, and sampling.
 
-## [0.1.0] - Unreleased
+## [0.1.0] - 2026-08-31
 
-The first release is a local release candidate pending authorized remote CI and
-publication. See
-`docs/architecture/portability-contract.md` for its frozen semantic boundary.
+The first release establishes the frozen semantic boundary documented in
+`docs/architecture/portability-contract.md`.

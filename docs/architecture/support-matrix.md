@@ -1,7 +1,8 @@
 # Support Matrix
 
-Status: Local 0.1.0 release candidate. Remote and provisional-platform jobs have
-not run. Last reviewed: 2026-08-11.
+Status: 0.1.0 release baseline. The hosted Linux matrix and provisional Windows
+x86-64 and macOS arm64 smoke jobs passed on 2026-08-30. Last reviewed:
+2026-08-31.
 
 The frozen contract is Python Array API 2024.12. A version or capability is
 release-supported only after its required job passes without unexpected skips.
