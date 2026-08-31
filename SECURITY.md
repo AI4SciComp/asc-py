@@ -4,11 +4,11 @@
 
 | Version | Security support |
 | --- | --- |
-| `0.1.x` | Supported only after public 0.1.0 publication |
+| `0.1.x` | Supported |
 | unreleased code | No security support promise |
 
-Publication is blocked until private vulnerability reporting is enabled and
-verified. No response or remediation deadline is promised before release.
+Private vulnerability reporting was enabled and verified before the 0.1.0
+release. No fixed response or remediation deadline is promised.
 
 ## Reporting a Vulnerability
 

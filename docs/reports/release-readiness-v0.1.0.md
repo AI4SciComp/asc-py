@@ -1,7 +1,6 @@
 # Release Readiness: 0.1.0
 
-Status: Local release candidate; remote CI and publication require separate
-authorization. Evidence date: 2026-08-12.
+Status: 0.1.0 release baseline. Evidence date: 2026-08-31.
 
 ## Delivered contract
 
@@ -22,25 +21,24 @@ generation, models, training, optimization, and AutoML remain excluded.
 
 | Command/gate | Observed result |
 |---|---|
-| `uv run pytest` on CPython 3.12.4 | 703 passed; 90.34% branch coverage |
-| `python scripts/check_dependency_floor.py` | 703 passed; 90.42% branch coverage |
-| isolated CPython 3.13.15 suite | 366 passed |
-| isolated CPython 3.14.7 suite | 366 passed |
-| `JAX_ENABLE_X64=1 uv run pytest --no-cov` | 703 passed |
-| isolated full backend profiles | Base 206, Torch-without-JAX 314, JAX-without-Torch 305; no skips |
-| Ruff formatter and lint | Passed on 159 Python files |
-| `pylint src/asc scripts docs/conf.py docs/_inventory.py` | Passed, 10.00/10 |
-| strict-mode Pyright and pre-commit | 0 errors; all five hooks passed |
+| `make check` on CPython 3.12.4 | Complete local release gate passed |
+| `uv run pytest` | 1,215 passed; 90.51% branch coverage; no skips |
+| `python scripts/check_dependency_floor.py` | 1,215 passed; 90.57% branch coverage; no skips |
+| hosted CI at `6350540` | All 12 Linux, Python 3.12-3.14, backend, floor, JAX x64, package, macOS, and Windows jobs passed |
+| Ruff formatter and lint | Passed on 164 Python files |
+| `pylint src/asc scripts docs/conf.py docs/_inventory.py` | Passed, 9.94/10 |
+| strict-mode Pyright | 0 errors |
 | `make docs` | Strict HTML passed with 0 warnings; all 35 doctests passed |
 | `make docs-linkcheck` | Passed with 0 warnings |
-| `make docs-base` | NumPy-only HTML/doctest/inventory tests passed with Torch/JAX absent |
+| `make docs-base` | NumPy-only HTML, 35 doctests, and 14 selected tests passed with Torch/JAX absent |
+| `make examples` | All five executable examples passed |
 | isolated Torch and JAX examples | One passed in each independent environment; opposite backend absent |
-| CPython 3.13 and 3.14 docs profiles | 13 base docs tests passed on each interpreter |
 | public API inventory | 23 module pages, 224 canonical symbol pages, and 86 documented aliases |
-| Actionlint 1.7.7 and YAML parse | Documentation and CI workflows passed |
-| portability and release audits | Passed; 16 portable-core files, 0 errors |
+| pinned workflow and YAML checks | Release regressions and YAML parse passed |
+| portability and release audits | Passed; 17 portable-core files, 0 errors |
 | wheel/sdist metadata and content inspection | Passed |
 | isolated artifact installation profiles | Base wheel/sdist, Torch, JAX, HDF5, MAT, and all passed |
+| `uv publish --dry-run` | Both 0.1.0 distributions passed the PyPI upload plan |
 | `make benchmark` | Four backend cases passed |
 
 No required test was unavailable or skipped. The NumPy-only docs selection
@@ -82,8 +80,8 @@ dependency source or binary is vendored. The docs extra resolves Sphinx 9.1.0
 
 - The supported execution claim is dense CPU on Linux x86-64. Sparse, masked,
   nested, distributed, quantized, and accelerator arrays fail explicitly.
-- Windows x86-64 and macOS arm64 workflows are provisional and have not run on
-  hosted CI. Local evidence covers Linux only.
+- Windows x86-64 and macOS arm64 remain provisional, but their hosted install
+  and smoke jobs passed before release. Full semantic evidence covers Linux.
 - JAX is the only JIT backend in 0.1.0; Torch JIT raises a capability error.
   JAX int64/uint64/float64/complex128 require x64 mode.
 - Loading is single-process. Cross-backend random bitstream identity and
@@ -94,11 +92,17 @@ dependency source or binary is vendored. The docs extra resolves Sphinx 9.1.0
   documented diagnostic overrides because their runtime structural interfaces
   are not fully expressible to Pyright.
 
-## External actions still requiring authorization
+## Publication provenance
 
-No commit, push, pull request, tag, publication, release, repository-setting
-change, or DeepMLT modification was performed. Hosted CI, provisional-platform
-evidence, signing, tagging, and package publication remain external authorized
-actions. Documentation publication additionally requires the repository
-variable `ASC_PY_PAGES_ENABLED=true` and the one-time administrator action
-**Settings → Pages → Source → GitHub Actions**; neither opt-in was performed.
+Private vulnerability reporting is enabled. The `pypi` GitHub environment
+admits only `v*` tags. `.github/workflows/release.yml` verifies that the tag and
+package version agree, builds and clean-installs one artifact set, records its
+SHA-256 checksums, publishes that exact wheel and source distribution through
+PyPI Trusted Publishing, and creates the GitHub Release only after PyPI accepts
+the artifacts. All third-party actions are pinned to full commit SHAs, and only
+the publishing job receives an OIDC token.
+
+The PyPI Trusted Publisher identity is organization `AI4SciComp`, repository
+`asc-py`, workflow `release.yml`, and environment `pypi`. Documentation
+publication remains independently gated by `ASC_PY_PAGES_ENABLED=true` and the
+repository Pages source setting.

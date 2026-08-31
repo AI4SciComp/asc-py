@@ -16,7 +16,9 @@ and AutoML.
 Commit and push operations require explicit user authorization. The current
 CI-remediation commit and push to the existing pull-request branch were
 authorized on 2026-08-16. No tag, release, package publication,
-remote/repository setting change, or DeepMLT modification is authorized.
+remote/repository setting change, or DeepMLT modification was authorized in
+that work session. On 2026-08-31, the user separately authorized repairing and
+publishing the missing tag, GitHub Release, and PyPI release.
 
 ## Frozen decisions
 
@@ -302,6 +304,12 @@ each internal gate.
 | 2026-08-16 | `make floor` after CI remediation | All 1,213 tests passed against every direct minimum with 90.57% branch coverage. |
 | 2026-08-16 | `make docs` after CI remediation | All-extras warnings-as-errors HTML and all 35 doctests passed. |
 | 2026-08-16 | `make test` after CI remediation | All 1,213 tests passed without skips and with 90.51% branch coverage. |
+| 2026-08-31 | release infrastructure audit | Confirmed no tags, GitHub Releases, release workflow, PyPI project, PyPI credential, GitHub environment, or repository secret; default-branch CI had passed all 12 jobs at `6350540`. |
+| 2026-08-31 | repository release settings | Enabled private vulnerability reporting and created a tag-restricted `pypi` environment for short-lived Trusted Publishing credentials. |
+| 2026-08-31 | release-workflow regressions and YAML parse | Two focused tests passed; all actions are immutable-SHA pinned; only the PyPI job receives `id-token: write`; the GitHub Release depends on successful PyPI publication. |
+| 2026-08-31 | `make check` | Formatting and Ruff passed on 164 files; Pylint passed at 9.94/10; all audits passed; strict Pyright reported 0 errors; 1,215 tests passed without skips and with 90.51% branch coverage; strict HTML, 35 doctests, NumPy-only docs, five examples, artifact inspection, and all isolated install profiles passed. |
+| 2026-08-31 | dependency-floor portion of `make check` | All 1,215 tests passed against every direct minimum without skips and with 90.57% branch coverage. |
+| 2026-08-31 | `uv publish --dry-run` | The wheel and source distribution passed the PyPI upload plan. |
 
 The functionality ledger contains all 168 normative IDs in runbook order. The
 release audit verifies every row is Complete with existing trace paths.
